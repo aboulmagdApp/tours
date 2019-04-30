@@ -2,16 +2,29 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const app = express_1.default();
-app.get("/", (req, res, next) => {
+var express_1 = __importDefault(require("express"));
+var apiGetTours_1 = require("./api/tours/apiGetTours");
+var apiGetTourDetail_1 = require("./api/tours/apiGetTourDetail");
+var app = express_1.default();
+var bodyparser = __importStar(require("body-parser"));
+var apiCreateTour_1 = require("./api/tours/apiCreateTour");
+var apiDeleteTour_1 = require("./api/tours/apiDeleteTour");
+var apiUpdateTour_1 = require("./api/tours/apiUpdateTour");
+var jsonParser = bodyparser.json();
+app.get("/", function (req, res, next) {
     res.send("Tour Booking API.....");
 });
-app.get("/tours", (req, res, next) => {
-    res.send("get List of tours API.....");
-});
-app.post("/tours", (req, res, next) => {
-    res.send("Add new Tour API.....");
-});
-app.listen(process.env.PORT || 4038, () => { console.log("Server Started......."); });
+app.get("/tours", apiGetTours_1.apiGetTours);
+app.get("/tours/:id", apiGetTourDetail_1.apiGetTourDetail);
+app.post("/tours", jsonParser, apiCreateTour_1.apiCreateTour);
+app.delete("/tours/:id", apiDeleteTour_1.apiDeletTour);
+app.patch("/tours/:id", jsonParser, apiUpdateTour_1.apiUpdateTour);
+app.listen(process.env.PORT || 5038, function () { console.log("Server Started......."); });
