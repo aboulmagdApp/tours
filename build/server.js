@@ -19,17 +19,11 @@ var jsonParser = bodyparser.json();
 var apiCreateTour_1 = require("./api/tours/apiCreateTour");
 var apiDeleteTour_1 = require("./api/tours/apiDeleteTour");
 var apiUpdateTour_1 = require("./api/tours/apiUpdateTour");
-var authenticator = function (req, res, next) {
-    var username = "Andy123";
-    req.user = username;
-    next();
-};
-var logger = function (req, res, next) {
-    console.log("user" + req.user + "-" + new Date + "-" + req.method + "Requesst to" + req.path);
-    next();
-};
-app.use(authenticator);
+var morgan_1 = __importDefault(require("morgan"));
+var path_1 = __importDefault(require("path"));
+var logger = morgan_1.default("dev");
 app.use(logger);
+app.use("/static", express_1.default.static(path_1.default.resolve("./", "pubilc", "img")));
 app.get("/", function (req, res, next) {
     res.send("Tour Booking API.....");
 });

@@ -11,19 +11,12 @@ import { apiCreateTour } from "./api/tours/apiCreateTour";
 import { apiDeletTour } from "./api/tours/apiDeleteTour";
 import { apiUpdateTour } from "./api/tours/apiUpdateTour";
 import { CustomeRequestHandeler } from "./api/model/express";
+import morgan from "morgan";
+import path from "path";
 
-const authenticator:CustomeRequestHandeler = (req,res,next)=>{
-    const username="Andy123";
-    req.user = username;
-    next();
-}
-
-const logger : CustomeRequestHandeler =(req,res,next)=>{
-    console.log("user"+ req.user+ "-" +new Date +"-"+ req.method +"Requesst to"+ req.path);
-    next();
-}
-app.use(authenticator);
+const logger = morgan("dev");
 app.use(logger);
+app.use("/static",express.static(path.resolve("./","pubilc","img")));
 app.get("/", (req, res, next) => {
     res.send("Tour Booking API.....");
 });

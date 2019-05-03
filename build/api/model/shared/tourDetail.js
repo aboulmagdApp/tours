@@ -17,12 +17,13 @@ var tourSummary_1 = require("./tourSummary");
 var reviews_1 = require("./reviews");
 var TourDetail = /** @class */ (function (_super) {
     __extends(TourDetail, _super);
-    function TourDetail(tourData, reviewData) {
+    function TourDetail(tourData, reviewData, tourImages) {
         var _this = _super.call(this, tourData) || this;
         _this.tourCategory = tourData.tourCategory;
         _this.tourDescription = tourData.tourDescription;
         _this.price = tourData.price;
         _this.currency = tourData.currency;
+        _this.img = tourImages;
         _this.reviews = reviewData.map(function (item) { return new reviews_1.Review(item); });
         return _this;
     }
