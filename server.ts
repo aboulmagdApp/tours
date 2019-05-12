@@ -18,7 +18,17 @@ import { apiErrorHandler } from "./api/general/errorHandling";
 import { runInNewContext } from "vm";
 import { APIError } from "./api/model/shared/messages";
 import { dateParam } from "./api/general/reqParams/dateParam";
+import { apiCheckTourFilters } from "./api/tours/apiCheckTourFilters";
+import { apiDownloadImage } from "./api/tours/apiDownloadImage";
 
+app.disable("x-powered-by");
+app.use((req, res, next) => {
+    res.set({
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE"
+    });
+    next();
+});
 const logger = morgan("dev");
 app.use(logger);
 app.use((req, res, next) => {
@@ -40,12 +50,13 @@ app.param("fromDate",dateParam);
 app.param("toDate",dateParam);
 app.get(`/bookings/:fromDate/:toDate`,(req,res,next)=>res.json(req.params));
 
-app.get("/tours", apiGetTours);
+app.get("/tours",apiCheckTourFilters, apiGetTours);
 app.get("/tours/:id", apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour);
 app.delete("/tours/:id", apiDeletTour);
 app.patch("/tours/:id", jsonParser, apiUpdateTour);
 app.post("/tours/:id/img", apiUploadImage);
+app.get("/static/download/:id", apiDownloadImage);
 
 app.use(apiErrorHandler);
 app.listen(process.env.PORT || 5039, () => { console.log("Server Started.......") });

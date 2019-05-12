@@ -25,6 +25,16 @@ var apiUploadImage_1 = require("./api/tours/apiUploadImage");
 var errorHandling_1 = require("./api/general/errorHandling");
 var messages_1 = require("./api/model/shared/messages");
 var dateParam_1 = require("./api/general/reqParams/dateParam");
+var apiCheckTourFilters_1 = require("./api/tours/apiCheckTourFilters");
+var apiDownloadImage_1 = require("./api/tours/apiDownloadImage");
+app.disable("x-powered-by");
+app.use(function (req, res, next) {
+    res.set({
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE"
+    });
+    next();
+});
 var logger = morgan_1.default("dev");
 app.use(logger);
 app.use(function (req, res, next) {
@@ -43,11 +53,12 @@ app.get("/", function (req, res, next) {
 app.param("fromDate", dateParam_1.dateParam);
 app.param("toDate", dateParam_1.dateParam);
 app.get("/bookings/:fromDate/:toDate", function (req, res, next) { return res.json(req.params); });
-app.get("/tours", apiGetTours_1.apiGetTours);
+app.get("/tours", apiCheckTourFilters_1.apiCheckTourFilters, apiGetTours_1.apiGetTours);
 app.get("/tours/:id", apiGetTourDetail_1.apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour_1.apiCreateTour);
 app.delete("/tours/:id", apiDeleteTour_1.apiDeletTour);
 app.patch("/tours/:id", jsonParser, apiUpdateTour_1.apiUpdateTour);
 app.post("/tours/:id/img", apiUploadImage_1.apiUploadImage);
+app.get("/static/download/:id", apiDownloadImage_1.apiDownloadImage);
 app.use(errorHandling_1.apiErrorHandler);
 app.listen(process.env.PORT || 5039, function () { console.log("Server Started......."); });
