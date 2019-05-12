@@ -20,6 +20,7 @@ import { APIError } from "./api/model/shared/messages";
 import { dateParam } from "./api/general/reqParams/dateParam";
 import { apiCheckTourFilters } from "./api/tours/apiCheckTourFilters";
 import { apiDownloadImage } from "./api/tours/apiDownloadImage";
+import { userRouter } from "./api/users/apiUsers";
 
 app.disable("x-powered-by");
 app.use((req, res, next) => {
@@ -45,7 +46,7 @@ app.use("/static", express.static(path.resolve("./", "pubilc", "img")));
 app.get("/", (req, res, next) => {
     res.send("Tour Booking API.....");
 });
-
+app.use("/users",userRouter);
 app.param("fromDate",dateParam);
 app.param("toDate",dateParam);
 app.get(`/bookings/:fromDate/:toDate`,(req,res,next)=>res.json(req.params));
