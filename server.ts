@@ -34,7 +34,9 @@ app.use("/static", express.static(path.resolve("./", "pubilc", "img")));
 app.get("/", (req, res, next) => {
     res.send("Tour Booking API.....");
 });
-app.get("/bookings/:id(\\d{4})",(req,res,next)=>res.json(req.params));
+const dateFormat = "\\d{4}-\\d{1,2}-\\d{1,2}";
+app.get(`/bookings/:fromDate(${dateFormat})/:toDate(${dateFormat})`,(req,res,next)=>res.json(req.params));
+//app.get(`/bookings/:fromDate(${dateFormat})/:toDate`, (req, res, next) => res.json(req.params));
 app.get("/tours", apiGetTours);
 app.get("/tours/:id", apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour);

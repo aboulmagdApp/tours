@@ -39,7 +39,9 @@ app.use("/static", express_1.default.static(path_1.default.resolve("./", "pubilc
 app.get("/", function (req, res, next) {
     res.send("Tour Booking API.....");
 });
-app.get("/bookings/:id(\\d{4})", function (req, res, next) { return res.json(req.params); });
+var dateFormat = "\\d{4}-\\d{1,2}-\\d{1,2}";
+app.get("/bookings/:fromDate(" + dateFormat + ")/:toDate(" + dateFormat + ")", function (req, res, next) { return res.json(req.params); });
+//app.get(`/bookings/:fromDate(${dateFormat})/:toDate`, (req, res, next) => res.json(req.params));
 app.get("/tours", apiGetTours_1.apiGetTours);
 app.get("/tours/:id", apiGetTourDetail_1.apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour_1.apiCreateTour);
