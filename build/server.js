@@ -24,6 +24,7 @@ var path_1 = __importDefault(require("path"));
 var apiUploadImage_1 = require("./api/tours/apiUploadImage");
 var errorHandling_1 = require("./api/general/errorHandling");
 var messages_1 = require("./api/model/shared/messages");
+var dateParam_1 = require("./api/general/reqParams/dateParam");
 var logger = morgan_1.default("dev");
 app.use(logger);
 app.use(function (req, res, next) {
@@ -39,9 +40,9 @@ app.use("/static", express_1.default.static(path_1.default.resolve("./", "pubilc
 app.get("/", function (req, res, next) {
     res.send("Tour Booking API.....");
 });
-var dateFormat = "\\d{4}-\\d{1,2}-\\d{1,2}";
-app.get("/bookings/:fromDate(" + dateFormat + ")/:toDate(" + dateFormat + ")", function (req, res, next) { return res.json(req.params); });
-//app.get(`/bookings/:fromDate(${dateFormat})/:toDate`, (req, res, next) => res.json(req.params));
+app.param("fromDate", dateParam_1.dateParam);
+app.param("toDate", dateParam_1.dateParam);
+app.get("/bookings/:fromDate/:toDate", function (req, res, next) { return res.json(req.params); });
 app.get("/tours", apiGetTours_1.apiGetTours);
 app.get("/tours/:id", apiGetTourDetail_1.apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour_1.apiCreateTour);

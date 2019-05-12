@@ -17,6 +17,7 @@ import { apiUploadImage } from "./api/tours/apiUploadImage";
 import { apiErrorHandler } from "./api/general/errorHandling";
 import { runInNewContext } from "vm";
 import { APIError } from "./api/model/shared/messages";
+import { dateParam } from "./api/general/reqParams/dateParam";
 
 const logger = morgan("dev");
 app.use(logger);
@@ -34,9 +35,11 @@ app.use("/static", express.static(path.resolve("./", "pubilc", "img")));
 app.get("/", (req, res, next) => {
     res.send("Tour Booking API.....");
 });
-const dateFormat = "\\d{4}-\\d{1,2}-\\d{1,2}";
-app.get(`/bookings/:fromDate(${dateFormat})/:toDate(${dateFormat})`,(req,res,next)=>res.json(req.params));
-//app.get(`/bookings/:fromDate(${dateFormat})/:toDate`, (req, res, next) => res.json(req.params));
+
+app.param("fromDate",dateParam);
+app.param("toDate",dateParam);
+app.get(`/bookings/:fromDate/:toDate`,(req,res,next)=>res.json(req.params));
+
 app.get("/tours", apiGetTours);
 app.get("/tours/:id", apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour);
