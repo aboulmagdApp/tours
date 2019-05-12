@@ -23,12 +23,23 @@ var morgan_1 = __importDefault(require("morgan"));
 var path_1 = __importDefault(require("path"));
 var apiUploadImage_1 = require("./api/tours/apiUploadImage");
 var errorHandling_1 = require("./api/general/errorHandling");
+var messages_1 = require("./api/model/shared/messages");
 var logger = morgan_1.default("dev");
 app.use(logger);
+app.use(function (req, res, next) {
+    if (req.accepts("application/json")) {
+        next();
+    }
+    else {
+        next(new messages_1.APIError("content Type not Supported", "this API only Supports applicaton/json", 400));
+    }
+});
+app.get("/headers", function (req, res, next) { return res.json(req.headers); });
 app.use("/static", express_1.default.static(path_1.default.resolve("./", "pubilc", "img")));
 app.get("/", function (req, res, next) {
     res.send("Tour Booking API.....");
 });
+app.get("/bookings/:id(\\d{4})", function (req, res, next) { return res.json(req.params); });
 app.get("/tours", apiGetTours_1.apiGetTours);
 app.get("/tours/:id", apiGetTourDetail_1.apiGetTourDetail);
 app.post("/tours", jsonParser, apiCreateTour_1.apiCreateTour);
