@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { DataStore } from "../../data/data";
-import { PublicInfo, APIError } from "../model/shared/messages";
+import { DataStore } from "../../../data/data";
+import { PublicInfo, APIError } from "../../model/shared/messages";
 
 export const apiDeletTour: RequestHandler = (req, res, next) => {
 const tourID = req.params.id;

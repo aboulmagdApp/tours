@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { DataStore } from "../../data/data";
-import { TourDetail } from "../model/shared/tourDetail";
+import { DataStore } from "../../../data/data";
+import { TourDetail } from "../../model/shared/tourDetail";
 import { fileMapper } from "../general/static";
 
 

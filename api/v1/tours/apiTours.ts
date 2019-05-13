@@ -8,11 +8,15 @@ import { apiUploadImage } from "./apiUploadImage";
 import { apiGetTours } from "./apiGetTours";
 import { jsonParser } from "../general/bodyParser";
 
-export let toursRouter = Router();
 
-toursRouter.get("/",apiCheckTourFilters, apiGetTours);
-toursRouter.get("/:id", apiGetTourDetail);
-toursRouter.post("/", jsonParser, apiCreateTour);
-toursRouter.delete("/:id", apiDeletTour);
-toursRouter.patch("/:id", jsonParser, apiUpdateTour);
+export let toursRouter = Router();
+toursRouter.route("/")
+            .get(apiCheckTourFilters, apiGetTours)
+            .post(jsonParser, apiCreateTour);
+
+toursRouter.route("/:id")
+            .get(apiGetTourDetail)
+            .delete(apiDeletTour)
+            .patch(jsonParser, apiUpdateTour);
+            
 toursRouter.post("/:id/img", apiUploadImage);

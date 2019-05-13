@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { DataStore } from "../../data/data";
+import { DataStore } from "../../../data/data";
 
 export const apiUpdateTour: RequestHandler = (req, res, next) => {
     const tourID = req.params.id;
