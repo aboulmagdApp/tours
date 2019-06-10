@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start-server": "tsc && node build/server.js",
-    "start": "nodemon -e ts -w ./ -x npm run start-server"
+    "start": "nodemon -e ts -w ./ -x npm run start-server",
+    "update-metadata": "node_modules/.bin/schemats generate -c postgres://postgres:Magd@App@localhost/tourdb -o db/model_generated.ts"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
     "pg-promise": "^8.7.2",
+    "schemats": "^3.0.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
