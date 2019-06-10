@@ -1,14 +1,11 @@
 import { RequestHandler } from "express";
 import uuid from "uuid/v4";
-import { DataStore } from "../../../data/data";
 import { APIError, PublicInfo } from "../../model/shared/messages";
 import { db, pgp } from "../../../db/db";
 export const apiCreateTour: RequestHandler = (req, res, next) => {
-    const requiredFields = ["tourTitle", "location"];
-    const givenFields = Object.getOwnPropertyNames(req.body)
-    if (!requiredFields.every(field => givenFields.includes(field))) {
-        return next(new APIError("Data missing", "Not All required field Supported..", 400));
-    };
+    if (!req.body) {
+        next(APIError.errMissingBody());
+    }
     const newTour = {
         id: uuid(),
         location: req.body.location || "",
@@ -20,6 +17,6 @@ export const apiCreateTour: RequestHandler = (req, res, next) => {
         img: []
     }
     db.none(pgp.helpers.insert(newTour, undefined, "tours")).then(() => {
-        res.json(new PublicInfo("Tour added", 200, { newTour: newTour }));
+        res.json(PublicInfo.infoCreated({newTour: newTour}));
     });
 }

@@ -1,4 +1,3 @@
-import { DataStore } from "../../../data/data";
 import { RequestHandler } from "express";
 import { getFileUploader } from "../general/static";
 import { APIError, PublicInfo } from "../../model/shared/messages";
@@ -6,7 +5,6 @@ import { db } from "../../../db/db";
 
 export const apiUploadImage: RequestHandler = (req, res, next) => {
     const tourID = req.params.id;
-    const tourIndex = DataStore.tours.findIndex((item: any) => item.id == tourID);
     const upload = getFileUploader(req.app.get("env"));
     upload(req, res, (err) => {
         if (err) {
